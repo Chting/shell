@@ -1,0 +1,7 @@
+#!/bin/bash
+#检测服务是否正常
+cron_pid_num=`ps -ef|grep "cronsun/cronnode" |grep -v grep |wc -l`
+if [ "$cron_pid_num" -eq "0" ]
+then
+    /usr/sbin/service cronnode start
+fi
