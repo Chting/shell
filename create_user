@@ -10,14 +10,14 @@ echo "地址为：$host "
 read -p "输入数据库高权限账号：" name
 echo -e "\n"
 if [ -z "${name}" ];then
-       name=orchard_root
+       name=orcha
 fi
 echo "用户名为：$name"
 
 read -s -p "输入高权限密码(不显示)：" pass
 echo -e "\n"
 if [ -z "${pass}" ];then
-       pass=Wh8A3CGzwHKGWKfR
+       pass=Wh8A3CGz
 fi
 read -p "输入端口：" kou
 echo -e "\n"
@@ -31,7 +31,7 @@ $CMD -e "show databases;"
 read -p "输入创建账号：" zhanghao
 echo -e "\n"
 if [ -z "${zhanghao}" ];then
-        zhanghao=repli_ecs
+        zhanghao=repli
 fi
 echo "账号为：$zhanghao"
 
