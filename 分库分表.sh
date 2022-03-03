@@ -1,7 +1,6 @@
 #!/usr/bin/bash
 #分库分表执行SQL
-#CMD="mysql -P3306 -hxxxxx -uxxxx -pxxxx"
-#CMD="mysql -P18741 -h172.17.241.247 -uroot -pxxxx"
+CMD="mysql -P3306 -hxxxxx -uxxxx -pxxxx"
 DB="orders_"
 Table="zk_tbk_order_"
 for ((t=0;t<=15;t++))
