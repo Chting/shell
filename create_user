@@ -1,0 +1,67 @@
+#!/usr/bin/bash
+#数据库快速创建 DDL+DML/Read/DML 账号
+read -p "输入数据库链接地址：" host
+echo -e "\n"
+if [ -z "${host}" ];then
+       host=172.17.0.46
+fi
+echo "地址为：$host "
+
+read -p "输入数据库高权限账号：" name
+echo -e "\n"
+if [ -z "${name}" ];then
+       name=orchard_root
+fi
+echo "用户名为：$name"
+
+read -s -p "输入高权限密码(不显示)：" pass
+echo -e "\n"
+if [ -z "${pass}" ];then
+       pass=Wh8A3CGzwHKGWKfR
+fi
+read -p "输入端口：" kou
+echo -e "\n"
+if [ -z "${kou}" ];then
+        kou=3306
+fi
+
+CMD="mysql -h${host} -u${name} -p${pass} -P${kou}"
+$CMD -e "show databases;"
+
+read -p "输入创建账号：" zhanghao
+echo -e "\n"
+if [ -z "${zhanghao}" ];then
+        zhanghao=repli_ecs
+fi
+echo "账号为：$zhanghao"
+
+read -p "输入创建的密码：" passw
+echo -e "\n"
+if [ -z "${passw}" ];then
+       echo "密码不能为空"
+        exit 1
+fi
+read -p "输入赋权数据库： " dabas
+echo -e "\n"
+if [ -z "${dabas}" ];then
+        echo "数据库为空"
+        exit 1
+fi
+
+read -p "权限 1.DDL+DML 2.Read 3.DML：" quanx
+if [ $quanx = "1" ];then
+CMD="mysql -h${host} -u${name} -p${pass} -P${kou}"
+$CMD -e "create user ${zhanghao}@'%' identified by '$passw';"
+$CMD -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,ALTER,DROP on ${dabas}.* TO '$zhanghao'@'%';"
+$CMD -e "flush privileges;"
+elif [ $quanx = "2" ];then
+CMD="mysql -h${host} -u${name} -p${pass} -P${kou}"
+$CMD -e "create user ${zhanghao}@'%' identified by '$passw';"
+$CMD -e "GRANT SELECT on ${dabas}.* TO '$zhanghao'@'%';"
+$CMD -e "flush privileges;"
+else
+CMD="mysql -h${host} -u${name} -p${pass} -P${kou}"
+$CMD -e "create user ${zhanghao}@'%' identified by '$passw';"
+$CMD -e "GRANT SELECT,INSERT,UPDATE,DELETE on ${dabas}.* TO '$zhanghao'@'%';"
+$CMD -e "flush privileges;"
+fi
