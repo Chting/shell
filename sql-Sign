@@ -1,0 +1,41 @@
+#!/bin/bash
+#获取本地数据库列表并登陆
+RED='\E[1;31m'
+RES='\E[0m'
+bendi=`ps -ef|grep /data/mysql5 | grep -v 'grep'|awk '{print $9}' | awk -F '/' '{print $4}'`
+dikou=`ps -ef|grep /data/mysql5 | grep -v 'grep'|awk '{print $9}' | awk -F '/' '{print $4}'| awk -F '_' '{print $NF}'`
+if [ -z "${1}" ];then
+        if [ ! ${bendi} ];then
+                echo -e "${RED}本地未运行RDS从库实例!${RES}"
+                exit 1
+        fi
+      echo "======RDS从库root链接工具v0.2=========="
+      echo "${bendi}"
+      echo "============================by:qt======"
+      read -p "输入本地端口(Q退出):" sqlport
+        if [ ${sqlport} = Q ] || [ ${sqlport} = q ] ;then
+         exit 1
+        else
+result=$(echo $dikou | grep -w "${sqlport}")
+        while [ "$result" = "" ]
+        do
+                echo -e "${RED}端口不存在,重新输入${RES}"
+                echo "${bendi}"
+                read -p "输入SLB监听端口(Q退出):" sqlport
+        if [ ${sqlport} = Q ] || [ ${sqlport} = q ] ;then
+         exit 1
+        else
+                result=$(echo ${dikou} | grep -w "${sqlport}")
+        fi
+        done
+        fi
+mysql -h127.0.0.1 -uroot -pXXX -P${sqlport}
+exit 1
+        else
+        result=$(echo ${dikou} | grep -w "${1}")
+                if [ "$result" = "" ];then
+                echo -e "${RED}端口不存在,运行sqlroot查看${RES}"
+                exit 1
+                fi
+fi
+mysql -h127.0.0.1 -uroot -pxxxx -P${1}
