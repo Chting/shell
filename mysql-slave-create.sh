@@ -433,9 +433,9 @@ alter table func ENGINE = myisam;
 alter table event ENGINE = myisam;
 FLUSH PRIVILEGES;
 select '修改root...';
-ALTER USER '${mastroot}'@'%' IDENTIFIED WITH 'mysql_native_password' BY 'M9kulRHlb68scuwM';
+ALTER USER '${mastroot}'@'%' IDENTIFIED WITH 'mysql_native_password' BY 'xxx';
 select '修改root用户名...';
-RENAME USER '${mastroot}'@'%' TO 'aliyun_root'@'%';
+RENAME USER '${mastroot}'@'%' TO 'xxx_root'@'%';
 FLUSH PRIVILEGES;
 " -f
 stop_mysql
@@ -443,9 +443,9 @@ start_mysql
 
 echo_green "设置默认账号"
 mysql -ualiyun_root -h127.0.0.1 -P"${slave_port}" -p${slave_root_passwd} -e "\
-CREATE USER 'read_only'@'%' IDENTIFIED BY '92kZT85EtGmx1CnK';
+CREATE USER 'read_only'@'%' IDENTIFIED BY 'xxxx';
 GRANT SELECT, SHOW DATABASES ON *.* TO 'read_only'@'%';
-CREATE USER 'write_all'@'%' IDENTIFIED BY '8zIpcdxIN0G9bcpV';
+CREATE USER 'write_xx'@'%' IDENTIFIED BY 'xxxx';
 GRANT CREATE ROUTINE, CREATE VIEW, ALTER, SHOW VIEW, CREATE, ALTER ROUTINE, EVENT, SUPER, INSERT, RELOAD, SELECT, DELETE, FILE, SHOW DATABASES, TRIGGER, PROCESS, REFERENCES, UPDATE, DROP, EXECUTE, CREATE TEMPORARY TABLES, INDEX ON *.* TO 'write_all'@'%';
 FLUSH PRIVILEGES;
 " -f
