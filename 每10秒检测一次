@@ -1,0 +1,23 @@
+#!/bin/bash
+#10秒检测
+step=10
+for (( i = 0; i < 60;i=(i+step) )); do
+
+ps_out=`ps -ef | grep ${1} | grep -v 'grep' | grep -v $0`
+result=$(echo $ps_out | grep ${1} )
+if [[ "$result" != "" ]];then
+echo "Running"
+sleep $step
+else
+aa=`lsof -i:${1##*_} | wc -l`
+ if [ "$aa" -gt "0" ];then
+        echo "  !!mysql Port is have ! Time $(date) " >> /data/mysql/${1}/logs/done-time.log
+  else
+ echo "  !!mysql has been done ! Time $(date)" >> /data/mysql/${1}/logs/done-time.log
+ cd /data/mysql/${1}/;sh start.sh >> /data/mysql/${1}/logs/start.log
+fi
+sleep $step
+fi
+
+done
+exit 0
